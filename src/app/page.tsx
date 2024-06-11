@@ -33,7 +33,8 @@ const calculateCost = (state: State) => {
   } = state;
 
   // 1時間あたりのリクエスト数
-  const totalMessages = messagesPerSecond * devices * 3600 * hoursInPeriod;
+  const totalMessages =
+    messagesPerSecond * devices * objects * 3600 * hoursInPeriod;
 
   // WebSocketのリクエスト数は20:1の割合で計算
   const webSocketRequests = totalMessages / 20;
@@ -83,11 +84,9 @@ export default function Home() {
       const value = parseInt(e.target.value, 10);
       if (Number.isNaN(value)) {
         setError("数値を入力してください");
-        setState({ ...state, [key]: 0 });
-
-        return;
+      } else {
+        setError(null);
       }
-      setError(null);
 
       setState({ ...state, [key]: value });
     };
