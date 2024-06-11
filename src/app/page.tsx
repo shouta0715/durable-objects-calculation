@@ -32,15 +32,16 @@ const calculateCost = (state: State) => {
     memory,
   } = state;
 
+  const initialRequests = devices * objects;
+
   // 1時間あたりのリクエスト数
-  const totalMessages =
-    messagesPerSecond * devices * objects * 3600 * hoursInPeriod;
+  const totalMessages = messagesPerSecond * devices * 3600 * hoursInPeriod;
 
   // WebSocketのリクエスト数は20:1の割合で計算
   const webSocketRequests = totalMessages / 20;
 
   // 合計リクエスト数の計算
-  const totalRequests = devices + webSocketRequests;
+  const totalRequests = initialRequests + webSocketRequests;
 
   // 課金対象のリクエスト数の計算
   const billableRequests = Math.max(0, totalRequests - 1_000_000);
